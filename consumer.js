@@ -18,7 +18,15 @@ const setupConsumer = async () => {
   //tell it to fetch 1 job at a time for processing
   consumerRabbitInstance.prefetch(1);
 
-  consumerRabbitInstance.consume("test_queue", processMessage, {
+  await consumerRabbitInstance.assertQueue("some_queue", { durable: true });
+
+  await consumerRabbitInstance.bindQueue(
+    "some_queue",
+    "backgroundJob",
+    "sometype"
+  );
+
+  consumerRabbitInstance.consume("some_queue", processMessage, {
     noAck: false,
   });
 

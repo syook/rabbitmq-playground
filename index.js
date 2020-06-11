@@ -1,5 +1,4 @@
 const child_process = require("child_process");
-const { resolve } = require("path");
 
 let backgroundJobProcess;
 const setupConsumerChildProcess = () => {
@@ -27,7 +26,7 @@ const simulateJobs = () => {
       console.log(`Sending job ${id}`);
       producerRabbitInstance.publish(
         "backgroundJob",
-        "test_queue",
+        "sometype",
         Buffer.from(JSON.stringify({ value: "PROCESS-LOL", jobId: id })),
         { persistent: true }
       );

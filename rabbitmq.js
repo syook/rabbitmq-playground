@@ -10,15 +10,15 @@ async function setupRabbit() {
   let channel = await rabbitConnection.createChannel();
 
   //create an exchange (types: direct, topic, fanout,headers,dead letter)
-  await channel.assertExchange("backgroundJob", "fanout", {
+  await channel.assertExchange("backgroundJob", "direct", {
     durable: true,
   });
 
   //create the queues for that
-  await channel.assertQueue("test_queue", { durable: true });
+  // await channel.assertQueue("test_queue", { durable: true });
 
   //bind the above queue to the exchange
-  await channel.bindQueue("test_queue", "backgroundJob");
+  // await channel.bindQueue("test_queue", "backgroundJob");
 
   console.log(
     "CONNECTED AND BINDED THE QUEUE TO CHANNEL WITH EXCHANGE TYPE TOPIC"
