@@ -7,16 +7,13 @@ async function setupRabbit() {
   let rabbitConnection = await amqp.connect(CONNECTION_URL);
 
   //create a channel to communicate
-  let channel = await rabbitConnection.createConfirmChannel();
+  let channel = await rabbitConnection.createChannel();
 
   //create an exchange (types: direct, topic, fanout,headers,dead letter)
   await channel.assertExchange("backgroundJob", "topic", {
     durable: true,
   });
 
-  await channel.assertExchange("deadExchange", "topic", {
-    durable: true,
-  });
   //create the queues for that
   // await channel.assertQueue("test_queue", { durable: true });
 
@@ -31,4 +28,12 @@ async function setupRabbit() {
   return channel;
 }
 
-module.exports = setupRabbit;
+// module.exports = setupRabbit;
+
+class Rabbit {
+  async init(){
+    return await setupRabbit();
+  }
+}
+
+module.exports = Rabbit;
