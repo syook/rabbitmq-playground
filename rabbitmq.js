@@ -7,13 +7,16 @@ async function setupRabbit() {
   let rabbitConnection = await amqp.connect(CONNECTION_URL);
 
   //create a channel to communicate
-  let channel = await rabbitConnection.createChannel();
+  let channel = await rabbitConnection.createConfirmChannel();
 
   //create an exchange (types: direct, topic, fanout,headers,dead letter)
-  await channel.assertExchange("backgroundJob", "direct", {
+  await channel.assertExchange("backgroundJob", "topic", {
     durable: true,
   });
 
+  await channel.assertExchange("deadExchange", "topic", {
+    durable: true,
+  });
   //create the queues for that
   // await channel.assertQueue("test_queue", { durable: true });
 

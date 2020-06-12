@@ -23,12 +23,37 @@ const simulateJobs = () => {
   [...Array(10).keys()].forEach((id, val) => {
     //simulate job queueing between 500ms to 1s
     setTimeout(() => {
-      console.log(`Sending job ${id}`);
+      console.log(`Sending sometype job ${id}`);
       producerRabbitInstance.publish(
         "backgroundJob",
         "sometype",
-        Buffer.from(JSON.stringify({ value: "PROCESS-LOL", jobId: id })),
-        { persistent: true }
+        Buffer.from(JSON.stringify({ value: "PROCESS-sometype", jobId: id })),
+        { persistent: true },
+        (err, ok) => {
+          if (err !== null) {
+            console.log(id, "sometype error");
+          } else {
+            console.log(id, "sometype success");
+          }
+        }
+      );
+    }, Math.ceil(Math.random() * (1000 - 500 + 1) + 500));
+    setTimeout(() => {
+      console.log(`Sending job ${id}`);
+      producerRabbitInstance.publish(
+        "backgroundJob",
+        "anothertype",
+        Buffer.from(
+          JSON.stringify({ value: "PROCESS-anothertype", jobId: id })
+        ),
+        { persistent: true },
+        (err, ok) => {
+          if (err !== null) {
+            console.log(id, "anothertype error");
+          } else {
+            console.log(id, "anothertype success");
+          }
+        }
       );
     }, Math.ceil(Math.random() * (1000 - 500 + 1) + 500));
   });
