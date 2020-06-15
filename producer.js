@@ -21,7 +21,7 @@ class Producer extends Rabbit {
       {
         persistent: true,
         messageId: Date.now().toString(),
-        headers: { retries: 0 },
+        replyTo: "response_queue",
       }
     );
   }

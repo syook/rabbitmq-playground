@@ -1,6 +1,6 @@
 const amqp = require("amqplib");
 
-const CONNECTION_URL = "amqp://localhost";
+const { CONNECTION_URL } = require("./env.json");
 
 async function setupRabbit() {
   //creating a connection to rabbitMQ
@@ -31,7 +31,7 @@ async function setupRabbit() {
 // module.exports = setupRabbit;
 
 class Rabbit {
-  async init(){
+  async init() {
     return await setupRabbit();
   }
 }
