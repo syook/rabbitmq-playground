@@ -25,8 +25,8 @@ const simulateJobs = () => {
   [...Array(2).keys()].forEach((id, val) => {
     //simulate job queueing between 500ms to 1s
     setTimeout(() => {
-      console.log(`Sending sometype job ${id}`);
-      producerRabbitInstance.addJob("sometype", {
+      console.log(`Sending some queue job ${id}`);
+      producerRabbitInstance.addJob("some_queue", {
         value: "PROCESS-some type",
         jobId: id,
       });
@@ -48,9 +48,10 @@ const simulateJobs = () => {
     //   );
     // }, Math.ceil(Math.random() * (1000 - 500 + 1) + 500));
     setTimeout(() => {
-      console.log(`Sending anothertype job ${id}`);
-      producerRabbitInstance.addJob("anothertype", {
+      console.log(`Sending another queue job ${id}`);
+      producerRabbitInstance.addJob("another_queue", {
         value: "PROCESS-another type",
+        jobId: id,
       });
     }, Math.ceil(Math.random() * (1000 - 500 + 1) + 500));
     // setTimeout(() => {

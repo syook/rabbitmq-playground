@@ -1,4 +1,6 @@
 const Rabbit = require("./rabbitmq");
+const util = require("util");
+const EventEmitter = require("events");
 
 class Producer extends Rabbit {
   constructor() {
@@ -7,7 +9,9 @@ class Producer extends Rabbit {
 
   async initialize() {
     this.channel = await this.init();
+    util.inherits(Producer, EventEmitter);
   }
+
   /**
    *
    * @param {string} jobType
@@ -22,6 +26,7 @@ class Producer extends Rabbit {
         persistent: true,
         messageId: Date.now().toString(),
         replyTo: "response_queue",
+        headers: { retries: 0, jobType },
       }
     );
   }
